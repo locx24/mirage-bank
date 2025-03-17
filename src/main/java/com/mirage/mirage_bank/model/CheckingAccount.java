@@ -13,6 +13,9 @@ public class CheckingAccount {
     private String status;
     private User accountHolder;
 
+    public CheckingAccount() {
+    }
+
     public CheckingAccount(long id, double balance, List<Transaction> transactions, LocalDate creationDate, String accountNumber, String status, User accountHolder) {
         this.id = id;
         this.balance = balance;
