@@ -1,22 +1,43 @@
 package com.mirage.mirage_bank.model;
 
+import jakarta.persistence.*;
 import java.util.List;
 import java.time.LocalDate;
 
+// map to class to PostgreSQL database
+@Entity
+@Table
 public class CheckingAccount {
 
+    @Id
+    @SequenceGenerator(
+            name = "checking_sequence",
+            sequenceName = "checking_sequence",
+            allocationSize = 1
+    )
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "checking_sequence"
+    )
     private long id;
     private double balance;
-    private List<Transaction> transactions;
     private LocalDate creationDate;
     private String accountNumber;
     private String status;
-    private User accountHolder;
+
+    @OneToMany(mappedBy = "checkingAccount", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Transaction> transactions;
+
+    @OneToOne
+    @JoinColumn(name = "customer_id", nullable = false, unique = true)
+    private Customer accountHolder;
+
+    // constructors
 
     public CheckingAccount() {
     }
 
-    public CheckingAccount(long id, double balance, List<Transaction> transactions, LocalDate creationDate, String accountNumber, String status, User accountHolder) {
+    public CheckingAccount(long id, double balance, List<Transaction> transactions, LocalDate creationDate, String accountNumber, String status, Customer accountHolder) {
         this.id = id;
         this.balance = balance;
         this.transactions = transactions;
@@ -74,11 +95,11 @@ public class CheckingAccount {
         this.status = status;
     }
 
-    public User getAccountHolder() {
+    public Customer getAccountHolder() {
         return accountHolder;
     }
 
-    public void setAccountHolder(User accountHolder) {
+    public void setAccountHolder(Customer accountHolder) {
         this.accountHolder = accountHolder;
     }
 

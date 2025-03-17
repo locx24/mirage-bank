@@ -1,8 +1,24 @@
 package com.mirage.mirage_bank.model;
 
+import jakarta.persistence.*;
 import java.util.List;
 
-public class User {
+// map to class to PostgreSQL database
+@Entity
+@Table
+public class Customer {
+
+    @Id
+    @SequenceGenerator(
+            name = "customer",
+            sequenceName = "customer",
+            allocationSize = 1
+    )
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "customer_sequence"
+    )
+
     private long id;
     private String name;
     private String email;
@@ -12,9 +28,20 @@ public class User {
     private String state;
     private String zip;
     private String country;
+
+    // set 1-Many relationship with Transaction
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Transaction> transactions;
 
-    public User(long id, String name) {
+    //  makes sure the foreign key is in CheckingAccount
+    @OneToOne(mappedBy = "accountHolder", cascade = CascadeType.ALL, orphanRemoval = true)
+    private CheckingAccount checkingAccount;
+
+    // constructor
+    public Customer() {
+    }
+
+    public Customer(long id, String name) {
         this.id = id;
         this.name = name;
     }
@@ -101,7 +128,7 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" +
+        return "Customer{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +

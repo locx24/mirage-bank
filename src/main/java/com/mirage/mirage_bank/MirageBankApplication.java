@@ -2,7 +2,7 @@ package com.mirage.mirage_bank;
 
 import com.mirage.mirage_bank.model.CheckingAccount;
 import com.mirage.mirage_bank.model.Transaction;
-import com.mirage.mirage_bank.model.User;
+import com.mirage.mirage_bank.model.Customer;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.GetMapping;
