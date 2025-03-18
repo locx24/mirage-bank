@@ -10,14 +10,14 @@ import java.util.List;
 
 // declare REST controller to handle HTTP requests and return data in JSON format
 @RestController
-// maps request to methods at defined endpoints
-@RequestMapping(path = "api/v1/checkingAccount")
+// maps request to methods at defined endpoints. In this case the root URL
+@RequestMapping("/")
 public class CheckingAccountController {
 
     // reference to checking account service
     private final CheckingAccountService checkingService;
 
-    // performs the dependency injection and uses the checkingService bean from the checkingAccountService file
+    // constructor. performs the dependency injection and uses the checkingService bean from the checkingAccountService file
     @Autowired
     public CheckingAccountController(CheckingAccountService checkingService) {
         this.checkingService = checkingService;
@@ -28,5 +28,4 @@ public class CheckingAccountController {
     public List<CheckingAccount> getCheckingAccount() {
         return checkingService.getCheckingAccount();
     }
-
 }

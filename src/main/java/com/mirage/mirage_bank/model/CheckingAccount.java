@@ -24,21 +24,28 @@ public class CheckingAccount {
     private LocalDate creationDate;
     private String accountNumber;
     private String status;
+    private String accountHolder;
 
-    @OneToMany(mappedBy = "checkingAccount", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Transaction> transactions;
+    @ElementCollection
+    private List<Double> transactions;
 
-    @OneToOne
-    @JoinColumn(name = "customer_id", nullable = false, unique = true)
-    private Customer accountHolder;
 
     // constructors
 
     public CheckingAccount() {
     }
 
-    public CheckingAccount(long id, double balance, List<Transaction> transactions, LocalDate creationDate, String accountNumber, String status, Customer accountHolder) {
+    public CheckingAccount(long id, double balance, List<Double> transactions, LocalDate creationDate, String accountNumber, String status, String accountHolder) {
         this.id = id;
+        this.balance = balance;
+        this.transactions = List.of();
+        this.creationDate = creationDate;
+        this.accountNumber = accountNumber;
+        this.status = status;
+        this.accountHolder = accountHolder;
+    }
+
+    public CheckingAccount(double balance, List<Double> transactions, LocalDate creationDate, String accountNumber, String status, String accountHolder) {
         this.balance = balance;
         this.transactions = transactions;
         this.creationDate = creationDate;
@@ -63,11 +70,11 @@ public class CheckingAccount {
         this.balance = balance;
     }
 
-    public List<Transaction> getTransactions() {
+    public List<Double> getTransactions() {
         return transactions;
     }
 
-    public void setTransactions(List<Transaction> transactions) {
+    public void setTransactions(List<Double> transactions) {
         this.transactions = transactions;
     }
 
@@ -95,11 +102,11 @@ public class CheckingAccount {
         this.status = status;
     }
 
-    public Customer getAccountHolder() {
+    public String getAccountHolder() {
         return accountHolder;
     }
 
-    public void setAccountHolder(Customer accountHolder) {
+    public void setAccountHolder(String accountHolder) {
         this.accountHolder = accountHolder;
     }
 
@@ -112,8 +119,7 @@ public class CheckingAccount {
                 ", creationDate=" + creationDate +
                 ", accountNumber='" + accountNumber + '\'' +
                 ", status='" + status + '\'' +
-                ", accountHolder=" + accountHolder +
+                ", accountHolder='" + accountHolder + '\'' +
                 '}';
     }
 }
-

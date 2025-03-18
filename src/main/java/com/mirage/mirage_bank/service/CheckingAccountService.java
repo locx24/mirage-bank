@@ -1,26 +1,24 @@
 package com.mirage.mirage_bank.service;
 
 import com.mirage.mirage_bank.model.CheckingAccount;
-import com.mirage.mirage_bank.model.Customer;
-import org.springframework.stereotype.Component;
+import com.mirage.mirage_bank.repository.CheckingAccountRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.time.LocalDate;
 import java.util.List;
 
 // lets spring boot know this is a bean
 @Service
 public class CheckingAccountService {
 
-    public List<CheckingAccount> getCheckingAccount() {
-        return List.of(new CheckingAccount(
 
-                1L,
-                5000.0,
-                List.of(),
-                LocalDate.now(),
-                "ACC12345",
-                "Active",
-                new Customer(1L,"John Doe")
-        ));
+    private final CheckingAccountRepository checkingAccountRepository;
+
+    public CheckingAccountService(CheckingAccountRepository checkingAccountRepository) {
+        this.checkingAccountRepository = checkingAccountRepository;
+    }
+
+    public List<CheckingAccount> getCheckingAccount() {
+
+       return checkingAccountRepository.findAll();
     }
 }
