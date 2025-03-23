@@ -3,9 +3,8 @@ package com.mirage.mirage_bank.controller;
 import com.mirage.mirage_bank.model.CheckingAccount;
 import com.mirage.mirage_bank.service.CheckingAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 // declare REST controller to handle HTTP requests and return data in JSON format
@@ -28,4 +27,28 @@ public class CheckingAccountController {
     public List<CheckingAccount> getCheckingAccount() {
         return checkingService.getCheckingAccount();
     }
+
+    // HTTP POST request
+    @PostMapping
+    public void registerNewCheckingAccount(@RequestBody CheckingAccount checkingAccount) {
+        checkingService.addNewCheckingAccount(checkingAccount);
+    }
+
+
+    // HTTP DELETE request
+    @DeleteMapping(path = "{checkingAccountID}")
+    public void deleteCheckingAccount(@PathVariable("checkingAccountID") Long checkingAccountID) {
+
+        checkingService.deleteCheckingAccount(checkingAccountID);
+
+    }
+
+    // HTTP PUT request
+    @PutMapping(path = "{checkingAccountID}")
+    public void updateCheckingAccount(
+
+        @PathVariable("checkingAccountID") Long checkingAccountID,
+        @RequestParam(required = false) String accountHolder) {
+        checkingService.updateCheckingAccount(checkingAccountID,accountHolder);
+        }
 }
