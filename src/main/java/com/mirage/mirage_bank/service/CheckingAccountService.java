@@ -4,7 +4,6 @@ import com.mirage.mirage_bank.model.CheckingAccount;
 import com.mirage.mirage_bank.repository.CheckingAccountRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.cache.CacheManagerCustomizers;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Objects;
@@ -16,11 +15,9 @@ public class CheckingAccountService {
 
 
     private final CheckingAccountRepository checkingAccountRepository;
-    private final CacheManagerCustomizers cacheManagerCustomizers;
 
-    public CheckingAccountService(CheckingAccountRepository checkingAccountRepository, CacheManagerCustomizers cacheManagerCustomizers) {
+    public CheckingAccountService(CheckingAccountRepository checkingAccountRepository) {
         this.checkingAccountRepository = checkingAccountRepository;
-        this.cacheManagerCustomizers = cacheManagerCustomizers;
     }
 
     public List<CheckingAccount> getCheckingAccount() {
@@ -47,7 +44,7 @@ public class CheckingAccountService {
 
        boolean exists = checkingAccountRepository.existsById(checkingAccountID);
 
-       // check if the checking account exists. if not, throw exception
+       // if the checking account does not exist throw exception
        if (!exists){
            throw new IllegalStateException("Checking account " + checkingAccountID + "does not exist");
        }
